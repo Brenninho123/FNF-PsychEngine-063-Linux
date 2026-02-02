@@ -16,10 +16,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Install Haxe
-        uses: haxe/actions-setup@v2
+      # Instala Haxe
+      - name: Setup Haxe
+        uses: acts/setup-haxe@v1
         with:
-          haxe-version: "4.3.0" # ajuste conforme a versão usada pelo Psych Engine
+          haxe-version: '4.3.0' # ajuste para a versão do Psych Engine
 
       - name: Install HaxeFlixel
         run: |
@@ -33,11 +34,14 @@ jobs:
           haxelib install hxcpp
           haxelib install lime
           haxelib install openfl
+          haxelib install flixel-ui
+          haxelib install hscript
+          haxelib install linc_luajit
+          haxelib install hxCodec
+          haxelib install discord_rpc
 
       - name: Build Linux Target
-        run: |
-          lime build linux -debug # ou -release se quiser versão final
+        run: lime build linux -debug
 
       - name: Run Game
-        run: |
-          ./export/linux/bin/FNF_PsychEngine-063-Linux # ajuste conforme nome do executável
+        run: ./export/linux/bin/PsychEngine
