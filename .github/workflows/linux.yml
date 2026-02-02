@@ -1,0 +1,43 @@
+name: Build Psych Engine Linux
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Haxe
+        uses: haxe/actions-setup@v2
+        with:
+          haxe-version: "4.3.0" # ajuste conforme a versão usada pelo Psych Engine
+
+      - name: Install HaxeFlixel
+        run: |
+          haxelib install flixel
+          haxelib install flixel-tools
+          haxelib run flixel-tools setup
+
+      - name: Install Additional Haxe Libraries
+        run: |
+          haxelib install actuate
+          haxelib install hxcpp
+          haxelib install lime
+          haxelib install openfl
+
+      - name: Build Linux Target
+        run: |
+          lime build linux -debug # ou -release se quiser versão final
+
+      - name: Run Game
+        run: |
+          ./export/linux/bin/FNF_PsychEngine-063-Linux # ajuste conforme nome do executável
